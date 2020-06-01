@@ -1,16 +1,17 @@
-package TeamLeadToolBox
+package main
 
 import (
 	"encoding/json"
+	"fmt"
+	"github.com/LastSprint/TeamLeadToolBox/JiraAnalytics"
 	"io/ioutil"
 	"log"
 	"os"
-	"github.com/LastSprint/TeamLeadToolBox/JiraAnalytics"
 
 	jdbmod "gitlab.com/surfstudio/infrastructure/spa/spa-backend-com-packages/dbservices/models"
-	)
+)
 
-func Main() {
+func main() {
 	args := os.Args[1:]
 
 	res, err := ioutil.ReadFile("config.json")
@@ -34,6 +35,12 @@ func Main() {
 			Password: config["pass"],
 		}
 
-		JiraAnalytics.StartWhatTimeLeft(userNodel, *jdbmod.NewBoardType(board), jiraId)
+		res, err := JiraAnalytics.StartWhatTimeLeft(userNodel, *jdbmod.NewBoardType(board), jiraId)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		fmt.Println(*res)
 	}
 }

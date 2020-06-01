@@ -10,7 +10,7 @@ import (
 	jsrv "gitlab.com/surfstudio/infrastructure/spa/spa-backend-jira-packages/services"
 )
 
-const JIRA_URL = "https://jira.surfstudio.ru"
+const JIRA_URL = "https://jira.surfstudio.ru/rest/api/2/search"
 
 // Start will collect information about each member of team in Jira.
 // So this analytics will collect remaining time of each Bug/Task in `TODO` or `In Progress states`
@@ -100,8 +100,8 @@ func timeToStringView(seconds int) string {
 	if seconds < 60 {
 		return fmt.Sprintf("%d sec", seconds)
 	} else if seconds < (60 * 60) {
-		return fmt.Sprintf("%d m", seconds/60)
+		return fmt.Sprintf("%dm", seconds/60)
 	} else {
-		return fmt.Sprintf("%d h %d m", seconds/60/60, seconds/60 % 60)
+		return fmt.Sprintf("%dh %dm", seconds/60/60, seconds/60 % 60)
 	}
 }
