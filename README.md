@@ -3,7 +3,7 @@ An item lead tool box that may be really helpful in job
 
 ## WhatTimeLeft
 
-This tool collect all bugs and tasks from specific board in jira then it will group each issue by assignee and then just sum all remaning inside grop. And then it will just print it. 
+This tool collects all bugs and tasks from specific board in jira then it will group each issue by assignee and then just sum all remaning inside grop. And then it will just print it. 
 
 So by this way you can know what busy time each team member has
 
