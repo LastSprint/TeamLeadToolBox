@@ -7,21 +7,26 @@ import (
 	"github.com/LastSprint/TeamLeadToolBox/JiraAnalytics"
 	"io/ioutil"
 	"log"
+	"os"
 )
 
-const PROJECT_ID = "projid"
-const BOARD = "board"
-
-var projectIdArg *string
-var boardArg *string
+var wtlArgsSet *flag.FlagSet
+var wtlProjectIdArg *string
+var wtlBoardIdArg *string
 
 func main() {
-	initializeCmdArgsParser()
+	args := os.Args[1:]
+
 	res, err := ioutil.ReadFile("config.json")
 
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	wtlArgsSet = flag.NewFlagSet("wtl", flag.ExitOnError)
+
+	wtlProjectIdArg = wtlArgsSet.String("projid", "", "Jira Project's ID")
+	wtlBoardIdArg = wtlArgsSet.String("board", "", "Jira Board's Name or ID")
 
 	config := map[string]string{}
 
@@ -29,7 +34,7 @@ func main() {
 
 	if err != nil { log.Fatal(err) }
 
-	str, err := startAnalytics(config, flag.Args())
+	str, err := startAnalytics(config, args)
 
 	if err != nil {
 		log.Fatal(err)
@@ -38,17 +43,11 @@ func main() {
 	fmt.Println(*str)
 }
 
-func initializeCmdArgsParser() {
-	projectIdArg = flag.String(PROJECT_ID, "TRI", "Jira Project's ID")
-	boardArg = flag.String(BOARD, "iOS", "Jira Board's Name or ID")
-
-	flag.Parse()
-}
-
 func startAnalytics(config map[string]string, args []string) (*string, error) {
 
 	switch args[0] {
 	case "wtl":
+		wtlArgsSet.Parse(args[1:])
 		userNodel := JiraAnalytics.JiraUserModel{
 			Username: config["user"],
 			Password: config["pass"],

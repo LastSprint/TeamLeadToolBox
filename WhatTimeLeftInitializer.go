@@ -8,15 +8,15 @@ import (
 func CreateWhatTimeLeft(user JiraAnalytics.JiraUserModel) (*string, error) {
 	errMsg := ""
 
-	if projectIdArg == nil {
+	if wtlProjectIdArg == nil {
 		errMsg = "You must specify a Jira Project's ID"
 		return &errMsg, nil
 	}
 
-	if boardArg == nil {
+	if wtlBoardIdArg == nil {
 		errMsg = "You must specify the board's ID or name"
 		return &errMsg, nil
 	}
 
-	return JiraAnalytics.StartWhatTimeLeft(user, models.BoardType(*boardArg), *projectIdArg)
+	return JiraAnalytics.StartWhatTimeLeft(user, models.BoardType(*wtlBoardIdArg), *wtlProjectIdArg)
 }
