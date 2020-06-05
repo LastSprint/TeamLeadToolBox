@@ -2,6 +2,7 @@ package JiraAnalytics
 
 import (
 	"fmt"
+	"github.com/LastSprint/TeamLeadToolBox/JiraAnalytics/Common"
 	jdbmod "gitlab.com/surfstudio/infrastructure/spa/spa-backend-com-packages/dbservices/models"
 	"strings"
 
@@ -10,7 +11,8 @@ import (
 	jsrv "gitlab.com/surfstudio/infrastructure/spa/spa-backend-jira-packages/services"
 )
 
-const JIRA_URL = "https://jira.surfstudio.ru/rest/api/2/search"
+const jiraApiUrl = "https://jira.surfstudio.ru/rest/api/2/search"
+const jiraWebUrl = "https://jira.surfstudio.ru/"
 
 // Start will collect information about each member of team in Jira.
 // So this analytics will collect remaining time of each Bug/Task in `TODO` or `In Progress states`
@@ -20,14 +22,18 @@ const JIRA_URL = "https://jira.surfstudio.ru/rest/api/2/search"
 //	- JiraUserModel: Your auth credentials for Jira
 //	- board: The name of the board you want to collect information from (iOS/Android for example)
 // 	- projectId: The jira key of the project. In EXM-123 this is the `EXM`
-func StartWhatTimeLeft(user JiraUserModel, board jdbmod.BoardType, projectId string) (*string, error) {
-	loader := jsrv.NewJiraIssueLoader(JIRA_URL, user.Username, user.Password)
+func StartWhatTimeLeft(user JiraUserModel, board jdbmod.BoardType, projectId, sprint string, showIssuesRefs bool) (*string, error) {
+	loader := jsrv.NewJiraIssueLoader(jiraApiUrl, user.Username, user.Password)
 
-	request := jsrv.SearchRequest{
-		Board:                   board,
-		IncludedStatuses:        []string{jmod.ToDo, jmod.InProgress},
-		IncludedTypes:           []string{jmod.IssueTypeTask, jmod.IssueTypeBug},
-		ProjectID:               projectId,
+	request := Common.JiraSearchRequest{
+		Wrapped: jsrv.SearchRequest{
+			Board:                   board,
+			IncludedStatuses:        []string{jmod.ToDo, jmod.InProgress},
+			IncludedTypes:           []string{jmod.IssueTypeTask, jmod.IssueTypeBug},
+			ProjectID:               projectId,
+			AdditionFields: []jsrv.JiraField{},
+		},
+		Sprint:  sprint,
 	}
 
 	issues, err := loader.LoadIssues(request)
@@ -36,26 +42,40 @@ func StartWhatTimeLeft(user JiraUserModel, board jdbmod.BoardType, projectId str
 		return nil, err
 	}
 
-	data := getUserRemaining(issues.Issues)
+	groups := groupByAssignee(issues.Issues)
 
-	result := formUserTimeMap(data)
+	data := getUserRemaining(groups)
+
+	groupsToMap := map[string][]jmod.IssueEntity{}
+
+	if showIssuesRefs {
+		groupsToMap = groups
+	}
+
+	result := formUserTimeMap(data, groupsToMap)
 
 	return &result, nil
 }
 
-func formUserTimeMap(val map[string]string) string {
+func formUserTimeMap(val map[string]string, groups map[string][]jmod.IssueEntity) string {
 	builder := strings.Builder{}
 
 	for key, value := range val {
-		builder.WriteString(fmt.Sprintf("%s: \t%s\n", key, value))
+		builder.WriteString(fmt.Sprintf("%s:\t%s\n", key, value))
+
+		if _, ok := groups[key]; !ok {
+			continue
+		}
+
+		for _, issue := range groups[key] {
+			builder.WriteString(fmt.Sprintf("  %s\n", jiraWebUrl + "/browse/" + issue.Key))
+		}
 	}
 
 	return builder.String()
 }
 
-func getUserRemaining(issues []jmod.IssueEntity) map[string]string {
-	groups := groupByAssignee(issues)
-
+func getUserRemaining(groups map[string][]jmod.IssueEntity) map[string]string {
 	result := make(map[string]string, len(groups))
 
 	for key, group := range groups {
