@@ -2,18 +2,21 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"github.com/LastSprint/TeamLeadToolBox/JiraAnalytics"
 	"io/ioutil"
 	"log"
-	"os"
-
-	jdbmod "gitlab.com/surfstudio/infrastructure/spa/spa-backend-com-packages/dbservices/models"
 )
 
-func main() {
-	args := os.Args[1:]
+const PROJECT_ID = "projid"
+const BOARD = "board"
 
+var projectIdArg *string
+var boardArg *string
+
+func main() {
+	initializeCmdArgsParser()
 	res, err := ioutil.ReadFile("config.json")
 
 	if err != nil {
@@ -26,21 +29,33 @@ func main() {
 
 	if err != nil { log.Fatal(err) }
 
-	if args[0] == "what_time_left" {
-		jiraId := args[1]
-		board := args[2]
+	str, err := startAnalytics(config, flag.Args())
 
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(*str)
+}
+
+func initializeCmdArgsParser() {
+	projectIdArg = flag.String(PROJECT_ID, "TRI", "Jira Project's ID")
+	boardArg = flag.String(BOARD, "iOS", "Jira Board's Name or ID")
+
+	flag.Parse()
+}
+
+func startAnalytics(config map[string]string, args []string) (*string, error) {
+
+	switch args[0] {
+	case "wtl":
 		userNodel := JiraAnalytics.JiraUserModel{
 			Username: config["user"],
 			Password: config["pass"],
 		}
-
-		res, err := JiraAnalytics.StartWhatTimeLeft(userNodel, *jdbmod.NewBoardType(board), jiraId)
-
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		fmt.Println(*res)
+		return CreateWhatTimeLeft(userNodel)
 	}
+
+	undefinedCmd := "Hmm.. seems like it's undefined command - " + args[0]
+	return &undefinedCmd, nil
 }
