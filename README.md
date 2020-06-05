@@ -16,21 +16,28 @@ For using this tool you need to create `config.json` file near (in the same dir)
 }
 ```
 
-Then you need to run command `./TeamLeadToolBox what_time_left SMP iOS` for example and it may print:
+Then you need to run command `./TeamLeadToolBox wtl -projid=SMP board=iOS -sprint="SMP-IOS 01 Init" -showIssuesRefs` for example and it may print:
 
 ```
 board = iOS and project = SMP and status in ("To Do","In Progress") and issuetype in ("10002","10004")
 YourTeamMember1: 	6h 0m
-YourTeamMember2: 	4h 4m
+  https://jira.surfstudio.ru//browse/SMP-123
+	https://jira.surfstudio.ru//browse/SMP-32
+YourTeamMember2: 	0h 0m
 YourTeamMember3: 	5h 0m
+  https://jira.surfstudio.ru//browse/SMP-34
 YourTeamMember4: 	4h 19m
+  https://jira.surfstudio.ru//browse/SMP-1
+	https://jira.surfstudio.ru//browse/SMP-2
+  https://jira.surfstudio.ru//browse/SMP-3
+	https://jira.surfstudio.ru//browse/SMP-4
 ....
 ```
 
 If you don't want to use huge cmd command all time you may use this script:
 
 ```Shell
-echo "./TeamLeadToolBox what_time_left <YOUR PROJECT> <BOARD>" >> run_wtl.sh
+echo "./TeamLeadToolBox wtl -projid=<YOUR PROJECT> -board=<BOARD>" >> run_wtl.sh
 chmod +x run_wtl.sh
 ```
 
@@ -39,3 +46,5 @@ and then just
 ```Shell
 ./run_wtl.sh
 ```
+
+To see what flags exist for `wtl` just execute `./TeamLeadToolBox wtl -h`
