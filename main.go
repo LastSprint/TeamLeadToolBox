@@ -13,6 +13,8 @@ import (
 var wtlArgsSet *flag.FlagSet
 var wtlProjectIdArg *string
 var wtlBoardIdArg *string
+var wtlSprintArg *string
+var wtlPrintIssuesRefs *bool
 
 func main() {
 	args := os.Args[1:]
@@ -27,6 +29,8 @@ func main() {
 
 	wtlProjectIdArg = wtlArgsSet.String("projid", "", "Jira Project's ID")
 	wtlBoardIdArg = wtlArgsSet.String("board", "", "Jira Board's Name or ID")
+	wtlSprintArg = wtlArgsSet.String("sprint", "", "Jira Project's sprint ID or name")
+	wtlPrintIssuesRefs = wtlArgsSet.Bool("showIssuesRefs", false, "Print all issues references under the each assignee name")
 
 	config := map[string]string{}
 

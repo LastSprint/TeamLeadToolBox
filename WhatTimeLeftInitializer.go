@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/LastSprint/TeamLeadToolBox/JiraAnalytics"
 	"gitlab.com/surfstudio/infrastructure/spa/spa-backend-com-packages/dbservices/models"
+	"log"
 )
 
 func CreateWhatTimeLeft(user JiraAnalytics.JiraUserModel) (*string, error) {
@@ -18,5 +19,19 @@ func CreateWhatTimeLeft(user JiraAnalytics.JiraUserModel) (*string, error) {
 		return &errMsg, nil
 	}
 
-	return JiraAnalytics.StartWhatTimeLeft(user, models.BoardType(*wtlBoardIdArg), *wtlProjectIdArg)
+	sprint := ""
+
+	if wtlSprintArg != nil {
+		sprint = *wtlSprintArg
+	}
+
+	showIssuesRef := false
+
+	if wtlPrintIssuesRefs != nil {
+		showIssuesRef = *wtlPrintIssuesRefs
+	}
+
+	log.Print(*wtlPrintIssuesRefs)
+
+	return JiraAnalytics.StartWhatTimeLeft(user, models.BoardType(*wtlBoardIdArg), *wtlProjectIdArg, sprint, showIssuesRef)
 }
