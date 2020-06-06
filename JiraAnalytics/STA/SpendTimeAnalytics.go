@@ -7,7 +7,6 @@ import (
 	jdbmod "gitlab.com/surfstudio/infrastructure/spa/spa-backend-com-packages/dbservices/models"
 	jmod "gitlab.com/surfstudio/infrastructure/spa/spa-backend-jira-packages/models"
 	jsrv "gitlab.com/surfstudio/infrastructure/spa/spa-backend-jira-packages/services"
-	"math"
 )
 
 const jiraApiUrl = "https://jira.surfstudio.ru/rest/api/2/search"
@@ -18,8 +17,7 @@ func StartSpendTimeAnalytics(user JiraAnalytics.JiraUserModel, board jdbmod.Boar
 	request := Common.JiraSearchRequest{
 		Wrapped: jsrv.SearchRequest{
 			Board:                   board,
-			IncludedStatuses:        []string{jmod.ToDo, jmod.InProgress},
-			IncludedTypes:           []string{jmod.IssueTypeTask, jmod.IssueTypeBug},
+			IncludedTypes:           []string{jmod.IssueTypeTask, jmod.IssueTypeBug, jmod.IssueTypeServiceTask},
 			ProjectID:               projectId,
 			EpicLink:				 epicLink,
 			AdditionFields: []jsrv.JiraField{},
@@ -88,7 +86,7 @@ func makeGroupCalculation(group Common.IssueGroup) IssueGroupWithTimeMetrics {
 	if allTimeSpend == 0 {
 		accuracy = -1
 	} else {
-		accuracy = math.RoundToEven(float64(allEstimate) / float64(allTimeSpend))
+		accuracy = float64(allEstimate) / float64(allTimeSpend)
 	}
 
 	return IssueGroupWithTimeMetrics{

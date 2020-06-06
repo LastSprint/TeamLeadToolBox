@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/LastSprint/TeamLeadToolBox/JiraAnalytics"
+	"github.com/LastSprint/TeamLeadToolBox/JiraAnalytics/STA"
 	"github.com/LastSprint/TeamLeadToolBox/JiraAnalytics/WTL"
 	"io/ioutil"
 	"log"
@@ -52,14 +53,18 @@ func main() {
 
 func startAnalytics(config map[string]string, args []string) (*string, error) {
 
+	userNodel := JiraAnalytics.JiraUserModel{
+		Username: config["user"],
+		Password: config["pass"],
+	}
+
 	switch args[0] {
 	case "wtl":
 		wtlArgsSet.Parse(args[1:])
-		userNodel := JiraAnalytics.JiraUserModel{
-			Username: config["user"],
-			Password: config["pass"],
-		}
 		return CreateWhatTimeLeft(userNodel, WTL.WhatTimeLeftDefaultStringFormatter{})
+	case "sta":
+		wtlArgsSet.Parse(args[1:])
+		return CreateSpendTimeAnalytics(userNodel, STA.SpendTimeAnalyticsDefaultStringFormatter{})
 	}
 
 	undefinedCmd := "Hmm.. seems like it's undefined command - " + args[0]

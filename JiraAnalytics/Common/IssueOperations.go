@@ -42,7 +42,7 @@ func GroupByAssignee(issues []jmod.IssueEntity) map[string][]jmod.IssueEntity {
 
 // GroupIssuesByType groups issues by their issue type ID
 func GroupIssuesByType(issues []jmod.IssueEntity) map[string][]jmod.IssueEntity {
-	return GroupBy(issues, func(issue jmod.IssueEntity) string { return issue.Fields.Issuetype.ID })
+	return GroupBy(issues, func(issue jmod.IssueEntity) string { return issue.Fields.Issuetype.Name })
 }
 
 // ToIssuesGroups converts grouped issues to array of `IssueGroup`
