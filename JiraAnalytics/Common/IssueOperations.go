@@ -64,6 +64,22 @@ func ToIssuesGroups(groups map[string][]jmod.IssueEntity) []IssueGroup {
 	return result
 }
 
+// Sum will sum each issue by fields that `fld` will provide
+// For example if you want to sum issues by remaining you should write like that:
+//
+// ```Go
+// Common.Sum(group.Issues, func(issue jmod.IssueEntity) int { return issue.Fields.Remaining })
+// ```
+func Sum(issues []jmod.IssueEntity, fld func(entity jmod.IssueEntity)int) int {
+	res := 0
+
+	for _, issue := range issues {
+		res += fld(issue)
+	}
+
+	return res
+}
+
 // TimeToStringView converts time in seconds to string with next formats:
 // 	- seconds < 1m -> `$seconds sec`
 //	- seconds < 1h -> `($seconds/60)m`

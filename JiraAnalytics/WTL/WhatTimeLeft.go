@@ -55,21 +55,14 @@ func getUserRemaining(groups map[string][]jmod.IssueEntity) []IssueGroupWithRema
 	index := 0
 
 	for _, group := range grouped {
+
+		remaining := Common.Sum(group.Issues, func(issue jmod.IssueEntity) int { return issue.Fields.Remaining })
+
 		result[index] = IssueGroupWithRemaining{
 			Group: group,
-			RemainingSum: calculateRemaining(group.Issues),
+			RemainingSum: remaining,
 		}
 		index++
-	}
-
-	return result
-}
-
-func calculateRemaining(issues []jmod.IssueEntity) int {
-	result := 0
-
-	for _, item := range issues {
-		result += item.Fields.Remaining
 	}
 
 	return result
