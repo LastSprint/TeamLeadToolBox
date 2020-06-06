@@ -16,6 +16,7 @@ var wtlProjectIdArg *string
 var wtlBoardIdArg *string
 var wtlSprintArg *string
 var wtlPrintIssuesRefs *bool
+var wtlEpicLink *string
 
 func main() {
 	args := os.Args[1:]
@@ -31,6 +32,7 @@ func main() {
 	wtlProjectIdArg = wtlArgsSet.String("projid", "", "Jira Project's ID")
 	wtlBoardIdArg = wtlArgsSet.String("board", "", "Jira Board's Name or ID")
 	wtlSprintArg = wtlArgsSet.String("sprint", "", "Jira Project's sprint ID or name")
+	wtlEpicLink = wtlArgsSet.String("epic", "", "Jira Project's epic ID or name")
 	wtlPrintIssuesRefs = wtlArgsSet.Bool("showIssuesRefs", false, "Print all issues references under the each assignee name")
 
 	config := map[string]string{}

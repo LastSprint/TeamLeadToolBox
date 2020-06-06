@@ -23,6 +23,8 @@ type WhatTimeLeftDefaultStringFormatter struct { }
 // Handle works as already sad in comments to `WhatTimeLeftDefaultStringFormatter`
 func (formatter WhatTimeLeftDefaultStringFormatter) Handle(data []IssueGroupWithRemaining, err error, needsToPrintIssuesLink bool) (*string, error) {
 
+	const jiraWebUrl = "https://jira.surfstudio.ru"
+
 	if err != nil { return nil, err}
 
 	builder := strings.Builder{}

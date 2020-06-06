@@ -10,7 +10,6 @@ import (
 )
 
 const jiraApiUrl = "https://jira.surfstudio.ru/rest/api/2/search"
-const jiraWebUrl = "https://jira.surfstudio.ru"
 
 // Start will collect information about each member of team in Jira.
 // So this analytics will collect remaining time of each Bug/Task in `TODO` or `In Progress states`
@@ -20,8 +19,9 @@ const jiraWebUrl = "https://jira.surfstudio.ru"
 //	- JiraUserModel: Your auth credentials for Jira
 //	- board: The name of the board you want to collect information from (iOS/Android for example)
 // 	- projectId: The jira key of the project. In EXM-123 this is the `EXM`
-//	- sprint: The jira sprint id (or just a name)
-func StartWhatTimeLeft(user JiraAnalytics.JiraUserModel, board jdbmod.BoardType, projectId, sprint string) ([]IssueGroupWithRemaining, error) {
+//	- sprint: The jira sprint id (or just a name). If you don't want to use it just pass it as empty string
+//	- epicLink: This jira epic name or key (like SPL-100). If you don't want to use it just pass it as empty string
+func StartWhatTimeLeft(user JiraAnalytics.JiraUserModel, board jdbmod.BoardType, epicLink, projectId, sprint string) ([]IssueGroupWithRemaining, error) {
 	loader := jsrv.NewJiraIssueLoader(jiraApiUrl, user.Username, user.Password)
 
 	request := Common.JiraSearchRequest{
@@ -30,6 +30,7 @@ func StartWhatTimeLeft(user JiraAnalytics.JiraUserModel, board jdbmod.BoardType,
 			IncludedStatuses:        []string{jmod.ToDo, jmod.InProgress},
 			IncludedTypes:           []string{jmod.IssueTypeTask, jmod.IssueTypeBug},
 			ProjectID:               projectId,
+			EpicLink:				 epicLink,
 			AdditionFields: []jsrv.JiraField{},
 		},
 		Sprint:  sprint,
