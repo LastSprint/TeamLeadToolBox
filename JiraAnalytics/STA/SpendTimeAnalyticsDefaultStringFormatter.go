@@ -13,8 +13,14 @@ func (formatter SpendTimeAnalyticsDefaultStringFormatter) Handle(data SpendTimeA
 
 	if err != nil { return nil, err}
 
-	allIssues := writeIssueTypes(data.AllIssuesMetrics)
-	byPersonIssues := writeByAssignee(data.ByAssigneeMetrics)
+	allIssues := strings.Builder{}
+
+	allIssues.WriteString("\n")
+	allIssues.WriteString("FOR THE WHOLE TEAM")
+	allIssues.WriteString("\n")
+
+	allIssues.WriteString(formatter.writeIssueTypes(data.AllIssuesMetrics).String())
+	byPersonIssues := formatter.writeByAssignee(data.ByAssigneeMetrics)
 
 	allIssues.WriteString("\n")
 	allIssues.WriteString("***************************************************")
@@ -26,13 +32,13 @@ func (formatter SpendTimeAnalyticsDefaultStringFormatter) Handle(data SpendTimeA
 	return &result, nil
 }
 
-func writeByAssignee(data map[string][]IssueGroupWithTimeMetrics) *strings.Builder {
+func (formatter SpendTimeAnalyticsDefaultStringFormatter) writeByAssignee(data map[string][]IssueGroupWithTimeMetrics) *strings.Builder {
 	bld := strings.Builder{}
 
 	for key, group := range data {
-		bld.WriteString(key)
+		bld.WriteString(strings.ToUpper(key))
 		bld.WriteString("\n")
-		tempBld := writeIssueTypes(group)
+		tempBld := formatter.writeIssueTypes(group)
 		bld.WriteString(tempBld.String())
 		bld.WriteString("\n")
 	}
@@ -40,12 +46,10 @@ func writeByAssignee(data map[string][]IssueGroupWithTimeMetrics) *strings.Build
 	return &bld
 }
 
-func writeIssueTypes(data []IssueGroupWithTimeMetrics) *strings.Builder {
+func (formatter SpendTimeAnalyticsDefaultStringFormatter) writeIssueTypes(data []IssueGroupWithTimeMetrics) *strings.Builder {
 	bld := strings.Builder{}
 
 	table := tablewriter.NewWriter(&bld)
-	table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
-	table.SetCenterSeparator("|")
 
 	for _, item := range data {
 		row := []string{

@@ -18,6 +18,7 @@ var wtlBoardIdArg *string
 var wtlSprintArg *string
 var wtlPrintIssuesRefs *bool
 var wtlEpicLink *string
+var mrkdown *bool
 
 func main() {
 	args := os.Args[1:]
@@ -35,6 +36,7 @@ func main() {
 	wtlSprintArg = wtlArgsSet.String("sprint", "", "Jira Project's sprint ID or name")
 	wtlEpicLink = wtlArgsSet.String("epic", "", "Jira Project's epic ID or name")
 	wtlPrintIssuesRefs = wtlArgsSet.Bool("showIssuesRefs", false, "Print all issues references under the each assignee name")
+	mrkdown = wtlArgsSet.Bool("mrkdown", false, "If set then format output as markdown")
 
 	config := map[string]string{}
 
@@ -64,7 +66,11 @@ func startAnalytics(config map[string]string, args []string) (*string, error) {
 		return CreateWhatTimeLeft(userNodel, WTL.WhatTimeLeftDefaultStringFormatter{})
 	case "sta":
 		wtlArgsSet.Parse(args[1:])
-		return CreateSpendTimeAnalytics(userNodel, STA.SpendTimeAnalyticsDefaultStringFormatter{})
+		var format STAFormatter = STA.SpendTimeAnalyticsDefaultStringFormatter{}
+		if safeBool(mrkdown) {
+			format = STA.SpendTimeAnalyticsDefaultMarkdownFormatter{}
+		}
+		return CreateSpendTimeAnalytics(userNodel, format)
 	}
 
 	undefinedCmd := "Hmm.. seems like it's undefined command - " + args[0]
