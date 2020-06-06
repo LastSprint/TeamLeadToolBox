@@ -9,4 +9,5 @@ Already exist:
 
 To Do:
 - TimeToMarket - Measure TTM for each issuea type in each statuses (ToDo/InProgress/e.t.c)
+
 ....
