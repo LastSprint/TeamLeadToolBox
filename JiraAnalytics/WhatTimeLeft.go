@@ -22,6 +22,8 @@ const jiraWebUrl = "https://jira.surfstudio.ru"
 //	- JiraUserModel: Your auth credentials for Jira
 //	- board: The name of the board you want to collect information from (iOS/Android for example)
 // 	- projectId: The jira key of the project. In EXM-123 this is the `EXM`
+//	- sprint: The jira sprint id (or just a name)
+//	- showIssuesRefs: if true then in result will printed issue links like `jiraWebUrl/browse/SPL-100`
 func StartWhatTimeLeft(user JiraUserModel, board jdbmod.BoardType, projectId, sprint string, showIssuesRefs bool) (*string, error) {
 	loader := jsrv.NewJiraIssueLoader(jiraApiUrl, user.Username, user.Password)
 
@@ -42,7 +44,7 @@ func StartWhatTimeLeft(user JiraUserModel, board jdbmod.BoardType, projectId, sp
 		return nil, err
 	}
 
-	groups := groupByAssignee(issues.Issues)
+	groups := Common.GroupByAssignee(issues.Issues)
 
 	data := getUserRemaining(groups)
 
@@ -80,27 +82,7 @@ func getUserRemaining(groups map[string][]jmod.IssueEntity) map[string]string {
 
 	for key, group := range groups {
 		timeRes := calculateRemaining(group)
-		result[key] = timeToStringView(timeRes)
-	}
-
-	return result
-}
-
-func groupByAssignee(issues []jmod.IssueEntity) map[string][]jmod.IssueEntity {
-	result := make(map[string][]jmod.IssueEntity, 0)
-
-	for _, issue := range issues {
-
-		name := issue.Fields.Assignee.Name
-
-		if len(name) == 0 { continue }
-
-		if _, ok := result[name]; !ok {
-			result[name] = make([]jmod.IssueEntity, 1)
-			result[name][0] = issue
-		} else {
-			result[name] = append(result[name], issue)
-		}
+		result[key] = Common.TimeToStringView(timeRes)
 	}
 
 	return result
@@ -114,14 +96,4 @@ func calculateRemaining(issues []jmod.IssueEntity) int {
 	}
 
 	return result
-}
-
-func timeToStringView(seconds int) string {
-	if seconds < 60 {
-		return fmt.Sprintf("%d sec", seconds)
-	} else if seconds < (60 * 60) {
-		return fmt.Sprintf("%dm", seconds/60)
-	} else {
-		return fmt.Sprintf("%dh %dm", seconds/60/60, seconds/60 % 60)
-	}
 }
