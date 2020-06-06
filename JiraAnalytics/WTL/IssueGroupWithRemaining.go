@@ -1,15 +1,9 @@
 package WTL
 
-import "gitlab.com/surfstudio/infrastructure/spa/spa-backend-jira-packages/models"
+import "github.com/LastSprint/TeamLeadToolBox/JiraAnalytics/Common"
 
-// IssueGroupWithRemaining just a type to storing domain model and calculations about this model
-// By meaning this model should be used only as DTO - so we can use it to send processed data
-// to some entity that can make it readable
+// IssueGroupWithRemaining provides information about what remaining time for this groups of issues
 type IssueGroupWithRemaining struct {
-	// PersonName is person who is assignee for this issues
-	PersonName string
-	// Issues of person
-	Issues []models.IssueEntity
-	// This is the sum of issues remaining
+	Group Common.IssueGroup
 	RemainingSum int
 }

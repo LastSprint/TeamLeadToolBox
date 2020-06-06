@@ -5,13 +5,22 @@ import (
 	jmod "gitlab.com/surfstudio/infrastructure/spa/spa-backend-jira-packages/models"
 )
 
-// GroupByAssignee will combine issues by value in `IssueEntity.Fields.Assignee.Name`
-func GroupByAssignee(issues []jmod.IssueEntity) map[string][]jmod.IssueEntity {
+// GroupBy contains all boilerplate code for grouping elements by one key
+// - Parameters:
+//		- issues: Elements to group
+//		- fldToGroup: Provides value for grouping
+//
+// For example you want to group by assignee:
+//
+// ```Go
+// GroupBy(issues, func(issue jmod.IssueEntity) string { return issue.Fields.Assignee.Name })
+// ```
+func GroupBy(issues []jmod.IssueEntity, fldToGroup func(jmod.IssueEntity)string) map[string][]jmod.IssueEntity {
 	result := make(map[string][]jmod.IssueEntity, 0)
 
 	for _, issue := range issues {
 
-		name := issue.Fields.Assignee.Name
+		name := fldToGroup(issue)
 
 		if len(name) == 0 { continue }
 
@@ -21,6 +30,35 @@ func GroupByAssignee(issues []jmod.IssueEntity) map[string][]jmod.IssueEntity {
 		} else {
 			result[name] = append(result[name], issue)
 		}
+	}
+
+	return result
+}
+
+// GroupByAssignee will combine issues by value in `IssueEntity.Fields.Assignee.Name`
+func GroupByAssignee(issues []jmod.IssueEntity) map[string][]jmod.IssueEntity {
+	return GroupBy(issues, func(issue jmod.IssueEntity) string { return issue.Fields.Assignee.Name })
+}
+
+// GroupIssuesByType groups issues by their issue type ID
+func GroupIssuesByType(issues []jmod.IssueEntity) map[string][]jmod.IssueEntity {
+	return GroupBy(issues, func(issue jmod.IssueEntity) string { return issue.Fields.Issuetype.ID })
+}
+
+// ToIssuesGroups converts grouped issues to array of `IssueGroup`
+// This method uses map key as ID
+func ToIssuesGroups(groups map[string][]jmod.IssueEntity) []IssueGroup {
+
+	result := make([]IssueGroup, len(groups))
+
+	index := 0
+
+	for key, value := range groups {
+		result[index] = IssueGroup{
+			ID:         key,
+			Issues:     value,
+		}
+		index++
 	}
 
 	return result

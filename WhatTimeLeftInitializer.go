@@ -4,8 +4,17 @@ import (
 	"github.com/LastSprint/TeamLeadToolBox/JiraAnalytics"
 	"github.com/LastSprint/TeamLeadToolBox/JiraAnalytics/WTL"
 	"gitlab.com/surfstudio/infrastructure/spa/spa-backend-com-packages/dbservices/models"
-	"log"
 )
+
+func safeStr(val *string) string {
+	if val != nil { return *val}
+	return ""
+}
+
+func safeBool(val *bool) bool {
+	if val != nil { return *val}
+	return false
+}
 
 type WTLStringFormatter interface {
 	Handle(data []WTL.IssueGroupWithRemaining, err error, needsToPrintIssuesLink bool) (*string, error)
@@ -24,21 +33,7 @@ func CreateWhatTimeLeft(user JiraAnalytics.JiraUserModel, formatter WTLStringFor
 		return &errMsg, nil
 	}
 
-	sprint := ""
+	data, err := WTL.StartWhatTimeLeft(user, models.BoardType(*wtlBoardIdArg), safeStr(wtlEpicLink), safeStr(wtlProjectIdArg), safeStr(wtlSprintArg))
 
-	if wtlSprintArg != nil {
-		sprint = *wtlSprintArg
-	}
-
-	showIssuesRef := false
-
-	if wtlPrintIssuesRefs != nil {
-		showIssuesRef = *wtlPrintIssuesRefs
-	}
-
-	log.Print(*wtlPrintIssuesRefs)
-
-	data, err := WTL.StartWhatTimeLeft(user, models.BoardType(*wtlBoardIdArg), *wtlProjectIdArg, sprint)
-
-	return formatter.Handle(data, err, showIssuesRef)
+	return formatter.Handle(data, err, safeBool(wtlPrintIssuesRefs))
 }

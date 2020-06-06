@@ -49,15 +49,15 @@ func StartWhatTimeLeft(user JiraAnalytics.JiraUserModel, board jdbmod.BoardType,
 // So you should pass only grouped by assignee issues
 func getUserRemaining(groups map[string][]jmod.IssueEntity) []IssueGroupWithRemaining {
 
-	result := make([]IssueGroupWithRemaining, len(groups))
+	grouped := Common.ToIssuesGroups(groups)
+	result := make([]IssueGroupWithRemaining, len(grouped))
 
 	index := 0
 
-	for key, group := range groups {
+	for _, group := range grouped {
 		result[index] = IssueGroupWithRemaining{
-			PersonName:   key,
-			Issues:       group,
-			RemainingSum: calculateRemaining(group),
+			Group: group,
+			RemainingSum: calculateRemaining(group.Issues),
 		}
 		index++
 	}
