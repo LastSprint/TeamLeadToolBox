@@ -2,11 +2,16 @@ package main
 
 import (
 	"github.com/LastSprint/TeamLeadToolBox/JiraAnalytics"
+	"github.com/LastSprint/TeamLeadToolBox/JiraAnalytics/WTL"
 	"gitlab.com/surfstudio/infrastructure/spa/spa-backend-com-packages/dbservices/models"
 	"log"
 )
 
-func CreateWhatTimeLeft(user JiraAnalytics.JiraUserModel) (*string, error) {
+type WTLStringFormatter interface {
+	Handle(data []WTL.IssueGroupWithRemaining, err error, needsToPrintIssuesLink bool) (*string, error)
+}
+
+func CreateWhatTimeLeft(user JiraAnalytics.JiraUserModel, formatter WTLStringFormatter) (*string, error) {
 	errMsg := ""
 
 	if wtlProjectIdArg == nil {
@@ -33,5 +38,7 @@ func CreateWhatTimeLeft(user JiraAnalytics.JiraUserModel) (*string, error) {
 
 	log.Print(*wtlPrintIssuesRefs)
 
-	return JiraAnalytics.StartWhatTimeLeft(user, models.BoardType(*wtlBoardIdArg), *wtlProjectIdArg, sprint, showIssuesRef)
+	data, err := WTL.StartWhatTimeLeft(user, models.BoardType(*wtlBoardIdArg), *wtlProjectIdArg, sprint)
+
+	return formatter.Handle(data, err, showIssuesRef)
 }

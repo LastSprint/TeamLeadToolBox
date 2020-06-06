@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/LastSprint/TeamLeadToolBox/JiraAnalytics"
+	"github.com/LastSprint/TeamLeadToolBox/JiraAnalytics/WTL"
 	"io/ioutil"
 	"log"
 	"os"
@@ -56,7 +57,7 @@ func startAnalytics(config map[string]string, args []string) (*string, error) {
 			Username: config["user"],
 			Password: config["pass"],
 		}
-		return CreateWhatTimeLeft(userNodel)
+		return CreateWhatTimeLeft(userNodel, WTL.WhatTimeLeftDefaultStringFormatter{})
 	}
 
 	undefinedCmd := "Hmm.. seems like it's undefined command - " + args[0]
