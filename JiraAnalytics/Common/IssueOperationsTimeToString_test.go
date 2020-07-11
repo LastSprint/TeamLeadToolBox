@@ -126,7 +126,8 @@ func TestTimeToStringReturnRightValueFor1h23m(t *testing.T) {
 
 	// Assert
 
-	if result != "1 h 23 m" {
+	if result != "1h 23m" {
+		t.Log(result)
 		t.FailNow()
 	}
 }
@@ -142,7 +143,7 @@ func TestTimeToStringReturnRightValueFor23mAnd1Sec(t *testing.T) {
 
 	// Assert
 
-	if result != "23 m" {
+	if result != "23m" {
 		t.FailNow()
 	}
 }
