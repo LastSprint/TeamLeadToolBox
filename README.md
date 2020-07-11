@@ -1,4 +1,7 @@
 # TeamLeadToolBox
+
+![Go](https://github.com/LastSprint/TeamLeadToolBox/workflows/Go/badge.svg?branch=master&event=push)
+
 An item lead tool box that may be really helpful in job
 
 Already exist:
