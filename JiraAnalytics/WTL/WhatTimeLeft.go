@@ -3,7 +3,6 @@ package WTL
 import (
 	"github.com/LastSprint/TeamLeadToolBox/JiraAnalytics"
 	"github.com/LastSprint/TeamLeadToolBox/JiraAnalytics/Common"
-	jdbmod "gitlab.com/surfstudio/infrastructure/spa/spa-backend-com-packages/dbservices/models"
 	jmod "github.com/LastSprint/JiraGoIssues/models"
 	jsrv "github.com/LastSprint/JiraGoIssues/services"
 )
@@ -20,12 +19,12 @@ const jiraApiUrl = "https://jira.surfstudio.ru/rest/api/2/search"
 // 	- projectId: The jira key of the project. In EXM-123 this is the `EXM`
 //	- sprint: The jira sprint id (or just a name). If you don't want to use it just pass it as empty string
 //	- epicLink: This jira epic name or key (like SPL-100). If you don't want to use it just pass it as empty string
-func StartWhatTimeLeft(user JiraAnalytics.JiraUserModel, board jdbmod.BoardType, epicLink, projectId, sprint string) ([]IssueGroupWithRemaining, error) {
+func StartWhatTimeLeft(user JiraAnalytics.JiraUserModel, board string, epicLink, projectId, sprint string) ([]IssueGroupWithRemaining, error) {
 	loader := jsrv.NewJiraIssueLoader(jiraApiUrl, user.Username, user.Password)
 
 	request := Common.JiraSearchRequest{
 		Wrapped: jsrv.SearchRequest{
-			Board:                   string(board),
+			Board:                   board,
 			IncludedStatuses:        []string{jmod.ToDo, jmod.InProgress},
 			IncludedTypes:           []string{jmod.IssueTypeTask, jmod.IssueTypeBug},
 			ProjectID:               projectId,

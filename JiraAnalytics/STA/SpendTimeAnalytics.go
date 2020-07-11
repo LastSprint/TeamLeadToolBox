@@ -4,19 +4,18 @@ import (
 	"github.com/LastSprint/TeamLeadToolBox/JiraAnalytics"
 	"github.com/LastSprint/TeamLeadToolBox/JiraAnalytics/Common"
 	"github.com/LastSprint/TeamLeadToolBox/Tools"
-	jdbmod "gitlab.com/surfstudio/infrastructure/spa/spa-backend-com-packages/dbservices/models"
 	jmod "github.com/LastSprint/JiraGoIssues/models"
 	jsrv "github.com/LastSprint/JiraGoIssues/services"
 )
 
 const jiraApiUrl = "https://jira.surfstudio.ru/rest/api/2/search"
 
-func StartSpendTimeAnalytics(user JiraAnalytics.JiraUserModel, board jdbmod.BoardType, epicLink, projectId, sprint string) (SpendTimeAnalyticsResult, error) {
+func StartSpendTimeAnalytics(user JiraAnalytics.JiraUserModel, board string, epicLink, projectId, sprint string) (SpendTimeAnalyticsResult, error) {
 	loader := jsrv.NewJiraIssueLoader(jiraApiUrl, user.Username, user.Password)
 
 	request := Common.JiraSearchRequest{
 		Wrapped: jsrv.SearchRequest{
-			Board:                   string(board),
+			Board:                   board,
 			IncludedTypes:           []string{jmod.IssueTypeTask, jmod.IssueTypeBug, jmod.IssueTypeServiceTask},
 			ProjectID:               projectId,
 			EpicLink:				 epicLink,

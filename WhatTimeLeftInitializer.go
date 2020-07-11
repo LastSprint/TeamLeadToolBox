@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/LastSprint/TeamLeadToolBox/JiraAnalytics"
 	"github.com/LastSprint/TeamLeadToolBox/JiraAnalytics/WTL"
-	"gitlab.com/surfstudio/infrastructure/spa/spa-backend-com-packages/dbservices/models"
 )
 
 func safeStr(val *string) string {
@@ -33,7 +32,7 @@ func CreateWhatTimeLeft(user JiraAnalytics.JiraUserModel, formatter WTLStringFor
 		return &errMsg, nil
 	}
 
-	data, err := WTL.StartWhatTimeLeft(user, models.BoardType(*wtlBoardIdArg), safeStr(wtlEpicLink), safeStr(wtlProjectIdArg), safeStr(wtlSprintArg))
+	data, err := WTL.StartWhatTimeLeft(user, *wtlBoardIdArg, safeStr(wtlEpicLink), safeStr(wtlProjectIdArg), safeStr(wtlSprintArg))
 
 	return formatter.Handle(data, err, safeBool(wtlPrintIssuesRefs))
 }

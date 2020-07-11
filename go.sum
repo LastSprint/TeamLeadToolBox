@@ -72,6 +72,8 @@ github.com/xdg/scram v0.0.0-20180814205039-7eeb5667e42c/go.mod h1:lB8K/P019DLNhe
 github.com/xdg/stringprep v0.0.0-20180714160509-73f8eece6fdc/go.mod h1:Jhud4/sHMO4oL310DaZAKk9ZaJ08SJfe+sJh0HrGL1Y=
 gitlab.com/surfstudio/infrastructure/spa/spa-backend-com-packages v0.0.0-20200218085611-255a17a2871b h1:xx1O5Jz4LS/0g4F9ThtGrfPinVGHGPNFFlM6uRle3n4=
 gitlab.com/surfstudio/infrastructure/spa/spa-backend-com-packages v0.0.0-20200218085611-255a17a2871b/go.mod h1:76eljg7PALYxtvfqWFSS9Xy7FHHK8ACpDbmMMsDvMLo=
+gitlab.com/surfstudio/infrastructure/spa/spa-backend-com-packages v0.0.0-20200410085401-0aa920c728aa h1:N7mhB+/2FLRWm4AHUmy9ofjQ97M3U8yVVB5a24xCu+c=
+gitlab.com/surfstudio/infrastructure/spa/spa-backend-com-packages v0.0.0-20200410085401-0aa920c728aa/go.mod h1:g+yR5zs35O7drRMH1ksTl6RhFKMLf5MSPIs7I/2d8OU=
 gitlab.com/surfstudio/infrastructure/spa/spa-backend-jira-packages v0.0.0-20200419101047-58fe9fed65a9 h1:l5RMNNPG6ARMPQOFwlhh7zr5F3ZP+ZJ/MaOh0B1ml/8=
 gitlab.com/surfstudio/infrastructure/spa/spa-backend-jira-packages v0.0.0-20200419101047-58fe9fed65a9/go.mod h1:g/b5ZeTkMBVFrc6b5vgU0Ke5tZ0TMh/PHdnvOD8YgFI=
 go.mongodb.org/mongo-driver v1.3.0/go.mod h1:MSWZXKOynuguX+JSvwP8i+58jYCXxbia8HS3gZBapIE=

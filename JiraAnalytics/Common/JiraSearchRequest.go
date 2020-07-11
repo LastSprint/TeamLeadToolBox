@@ -1,7 +1,6 @@
 package Common
 
 import (
-	"gitlab.com/surfstudio/infrastructure/spa/spa-backend-com-packages/utils"
 	jsrv "github.com/LastSprint/JiraGoIssues/services"
 	"strconv"
 )
@@ -41,5 +40,24 @@ func (req JiraSearchRequest) MakeJiraRequest() string {
 		result = append(result, wrappedStr)
 	}
 
-	return utils.JoinByCharacter(result, " and ", "")
+	return joinByCharacter(result, " and ", "")
+}
+
+// JoinByCharacter объединяет массив строк через символ `character`
+// и может "окружить" каждый элемент массива значением`surroundBy`
+func joinByCharacter(arr []string, delim string, surroundBy string) string {
+	result := ""
+
+	arrLen := len(arr)
+
+	for i, item := range arr {
+
+		result += surroundBy + item + surroundBy
+
+		if i < arrLen-1 {
+			result += delim
+		}
+	}
+
+	return result
 }

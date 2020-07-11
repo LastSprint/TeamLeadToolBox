@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/LastSprint/TeamLeadToolBox/JiraAnalytics"
 	"github.com/LastSprint/TeamLeadToolBox/JiraAnalytics/STA"
-	"gitlab.com/surfstudio/infrastructure/spa/spa-backend-com-packages/dbservices/models"
 )
 
 type STAFormatter interface {
@@ -23,7 +22,7 @@ func CreateSpendTimeAnalytics(user JiraAnalytics.JiraUserModel, formatter STAFor
 		return &errMsg, nil
 	}
 
-	data, err := STA.StartSpendTimeAnalytics(user, models.BoardType(*wtlBoardIdArg), safeStr(wtlEpicLink), safeStr(wtlProjectIdArg), safeStr(wtlSprintArg))
+	data, err := STA.StartSpendTimeAnalytics(user, *wtlBoardIdArg, safeStr(wtlEpicLink), safeStr(wtlProjectIdArg), safeStr(wtlSprintArg))
 
 	return formatter.Handle(data, err)
 }
