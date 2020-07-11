@@ -1,6 +1,6 @@
 package Common
 
-import "gitlab.com/surfstudio/infrastructure/spa/spa-backend-jira-packages/models"
+import "github.com/LastSprint/JiraGoIssues/models"
 
 // IssueGroupWithRemaining just a type to storing domain model and calculations about this model
 // By meaning this model should be used only as DTO - so we can use it to send processed data

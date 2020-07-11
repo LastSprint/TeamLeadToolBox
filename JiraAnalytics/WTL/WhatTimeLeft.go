@@ -4,9 +4,8 @@ import (
 	"github.com/LastSprint/TeamLeadToolBox/JiraAnalytics"
 	"github.com/LastSprint/TeamLeadToolBox/JiraAnalytics/Common"
 	jdbmod "gitlab.com/surfstudio/infrastructure/spa/spa-backend-com-packages/dbservices/models"
-	// At this time this is my private package but I will change it soon :D
-	jmod "gitlab.com/surfstudio/infrastructure/spa/spa-backend-jira-packages/models"
-	jsrv "gitlab.com/surfstudio/infrastructure/spa/spa-backend-jira-packages/services"
+	jmod "github.com/LastSprint/JiraGoIssues/models"
+	jsrv "github.com/LastSprint/JiraGoIssues/services"
 )
 
 const jiraApiUrl = "https://jira.surfstudio.ru/rest/api/2/search"
@@ -26,7 +25,7 @@ func StartWhatTimeLeft(user JiraAnalytics.JiraUserModel, board jdbmod.BoardType,
 
 	request := Common.JiraSearchRequest{
 		Wrapped: jsrv.SearchRequest{
-			Board:                   board,
+			Board:                   string(board),
 			IncludedStatuses:        []string{jmod.ToDo, jmod.InProgress},
 			IncludedTypes:           []string{jmod.IssueTypeTask, jmod.IssueTypeBug},
 			ProjectID:               projectId,

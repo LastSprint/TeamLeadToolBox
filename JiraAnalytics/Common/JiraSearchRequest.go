@@ -2,7 +2,7 @@ package Common
 
 import (
 	"gitlab.com/surfstudio/infrastructure/spa/spa-backend-com-packages/utils"
-	jsrv "gitlab.com/surfstudio/infrastructure/spa/spa-backend-jira-packages/services"
+	jsrv "github.com/LastSprint/JiraGoIssues/services"
 	"strconv"
 )
 

@@ -5,8 +5,8 @@ import (
 	"github.com/LastSprint/TeamLeadToolBox/JiraAnalytics/Common"
 	"github.com/LastSprint/TeamLeadToolBox/Tools"
 	jdbmod "gitlab.com/surfstudio/infrastructure/spa/spa-backend-com-packages/dbservices/models"
-	jmod "gitlab.com/surfstudio/infrastructure/spa/spa-backend-jira-packages/models"
-	jsrv "gitlab.com/surfstudio/infrastructure/spa/spa-backend-jira-packages/services"
+	jmod "github.com/LastSprint/JiraGoIssues/models"
+	jsrv "github.com/LastSprint/JiraGoIssues/services"
 )
 
 const jiraApiUrl = "https://jira.surfstudio.ru/rest/api/2/search"
@@ -16,7 +16,7 @@ func StartSpendTimeAnalytics(user JiraAnalytics.JiraUserModel, board jdbmod.Boar
 
 	request := Common.JiraSearchRequest{
 		Wrapped: jsrv.SearchRequest{
-			Board:                   board,
+			Board:                   string(board),
 			IncludedTypes:           []string{jmod.IssueTypeTask, jmod.IssueTypeBug, jmod.IssueTypeServiceTask},
 			ProjectID:               projectId,
 			EpicLink:				 epicLink,

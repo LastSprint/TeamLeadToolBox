@@ -1,7 +1,7 @@
 package Common
 
 import (
-	"gitlab.com/surfstudio/infrastructure/spa/spa-backend-jira-packages/models"
+	"github.com/LastSprint/JiraGoIssues/models"
 	"testing"
 )
 

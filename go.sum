@@ -1,4 +1,8 @@
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
+github.com/LastSprint/JiraGoIssues v1.0.8 h1:uf7Bl/0Uz3GfJ0kGnj8sms9mt5rOwh75drTuXJ3FxqU=
+github.com/LastSprint/JiraGoIssues v1.0.8/go.mod h1:hQWCXTUEfRp6WEbZHG1RSldIQ+WZbrrWVQ3paygyNs4=
+github.com/LastSprint/JiraGoIssues v1.0.9 h1:/DYUNX/NL24M7fn8FZbvlc2VrjbQ5J9LdWEQH9FWuUs=
+github.com/LastSprint/JiraGoIssues v1.0.9/go.mod h1:hQWCXTUEfRp6WEbZHG1RSldIQ+WZbrrWVQ3paygyNs4=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/go-stack/stack v1.8.0/go.mod h1:v0f6uXyyMGvRgIKkXu+yp6POWl0qKG85gN/melR3HDY=

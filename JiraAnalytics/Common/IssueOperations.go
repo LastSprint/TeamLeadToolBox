@@ -2,7 +2,7 @@ package Common
 
 import (
 	"fmt"
-	jmod "gitlab.com/surfstudio/infrastructure/spa/spa-backend-jira-packages/models"
+	jmod "github.com/LastSprint/JiraGoIssues/models"
 )
 
 // GroupBy contains all boilerplate code for grouping elements by one key
