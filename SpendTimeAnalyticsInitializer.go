@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/LastSprint/TeamLeadToolBox/JiraAnalytics"
 	"github.com/LastSprint/TeamLeadToolBox/JiraAnalytics/STA"
+	"strings"
 )
 
 type STAFormatter interface {
@@ -22,7 +23,21 @@ func CreateSpendTimeAnalytics(user JiraAnalytics.JiraUserModel, formatter STAFor
 		return &errMsg, nil
 	}
 
-	data, err := STA.StartSpendTimeAnalytics(user, *wtlBoardIdArg, safeStr(wtlEpicLink), safeStr(wtlProjectIdArg), safeStr(wtlSprintArg))
+	statuses := ""
+
+	if staStatuses == nil {
+		statuses = "Done"
+	} else {
+		statuses = *staStatuses
+	}
+
+	data, err := STA.StartSpendTimeAnalytics(
+		user,
+		*wtlBoardIdArg,
+		safeStr(wtlEpicLink),
+		safeStr(wtlProjectIdArg),
+		safeStr(wtlSprintArg),
+		strings.Split(statuses, ","))
 
 	return formatter.Handle(data, err)
 }

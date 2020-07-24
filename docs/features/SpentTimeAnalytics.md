@@ -61,3 +61,4 @@ OptionalFlags:
 - sprint - This is a project sprint. You can pass sprint name ("SPL iOS 01 Init") or id (123)
 - epic - This is a project epic. You can pass just a name ("SPL-IOS Infrastructure") or id (SPL-1)
 - mrkdown - If set then format output as markdown
+- statuses - Tasks statuses you want to analyze. You can provide values separated by coma: `Done,\"In Progress\"`. If didn't specified `Done` would be used

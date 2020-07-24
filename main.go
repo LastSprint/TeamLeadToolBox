@@ -18,6 +18,9 @@ var wtlBoardIdArg *string
 var wtlSprintArg *string
 var wtlPrintIssuesRefs *bool
 var wtlEpicLink *string
+
+var staStatuses *string
+
 var mrkdown *bool
 
 func main() {
@@ -37,7 +40,7 @@ func main() {
 	wtlEpicLink = wtlArgsSet.String("epic", "", "Jira Project's epic ID or name")
 	wtlPrintIssuesRefs = wtlArgsSet.Bool("showIssuesRefs", false, "Print all issues references under the each assignee name")
 	mrkdown = wtlArgsSet.Bool("mrkdown", false, "If set then format output as markdown")
-
+	staStatuses = wtlArgsSet.String("statuses", "Done", "Tasks statuses you want to analyze. You can provide values separated by coma: `Done,\"In Progress\"`. If didn't specified `Done` would be used")
 	config := map[string]string{}
 
 	err = json.Unmarshal(res, &config)

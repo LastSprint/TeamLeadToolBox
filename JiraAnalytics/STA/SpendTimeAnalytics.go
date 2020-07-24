@@ -10,12 +10,13 @@ import (
 
 const jiraApiUrl = "https://jira.surfstudio.ru/rest/api/2/search"
 
-func StartSpendTimeAnalytics(user JiraAnalytics.JiraUserModel, board string, epicLink, projectId, sprint string) (SpendTimeAnalyticsResult, error) {
+func StartSpendTimeAnalytics(user JiraAnalytics.JiraUserModel, board string, epicLink, projectId, sprint string, statuses []string) (SpendTimeAnalyticsResult, error) {
 	loader := jsrv.NewJiraIssueLoader(jiraApiUrl, user.Username, user.Password)
 
 	request := Common.JiraSearchRequest{
 		Wrapped: jsrv.SearchRequest{
 			Board:                   board,
+			IncludedStatuses: 		 statuses,
 			IncludedTypes:           []string{jmod.IssueTypeTask, jmod.IssueTypeBug, jmod.IssueTypeServiceTask},
 			ProjectID:               projectId,
 			EpicLink:				 epicLink,
