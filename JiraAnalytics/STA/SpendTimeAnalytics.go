@@ -29,7 +29,7 @@ func StartSpendTimeAnalytics(user JiraAnalytics.JiraUserModel, board string, epi
 
 	if err != nil { return SpendTimeAnalyticsResult{}, err }
 
-	// Global groups that didn't split by assignee
+	// Global groups that weren't split by assignee
 	allIssuesCh := make(chan interface{})
 	byAssigneeCh := make(chan interface{})
 

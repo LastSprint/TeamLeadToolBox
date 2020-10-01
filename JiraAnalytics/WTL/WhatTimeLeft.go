@@ -10,7 +10,7 @@ import (
 const jiraApiUrl = "https://jira.surfstudio.ru/rest/api/2/search"
 
 // Start will collect information about each member of team in Jira.
-// So this analytics will collect remaining time of each Bug/Task in `TODO` or `In Progress states`
+// So this analytics will collect remaining time of each Bug/Task in `TODO` or `In Progress' states
 // Then it will return this information as string (already formatted) or error
 //
 // Params:
