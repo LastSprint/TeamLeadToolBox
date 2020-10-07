@@ -20,7 +20,7 @@ import (
  */
 type WhatTimeLeftDefaultStringFormatter struct { }
 
-// Handle works as already sad in comments to `WhatTimeLeftDefaultStringFormatter`
+// Handle works as already said in comments to `WhatTimeLeftDefaultStringFormatter`
 func (formatter WhatTimeLeftDefaultStringFormatter) Handle(data []IssueGroupWithRemaining, err error, needsToPrintIssuesLink bool) (*string, error) {
 
 	const jiraWebUrl = "https://jira.surfstudio.ru"

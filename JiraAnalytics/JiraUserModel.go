@@ -2,11 +2,11 @@ package JiraAnalytics
 
 // This is jira model for basic auth.
 // Yes, i just don't give a shit (:
-// If you want to use Auth* methods so i just can contribute (:
+// If you want to use Auth* methods so you can contribute (:
 //
-// I promise I don't send your information to any place expect of Jira
+// I promise I won't send your information to any place except of Jira
 //
-// This model will use for get access to Jira
+// This model will be used for getting access to Jira
 type JiraUserModel struct {
 	// Username Jira user's name
 	Username string
